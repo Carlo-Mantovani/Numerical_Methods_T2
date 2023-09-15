@@ -32,7 +32,7 @@ def encontrar_velhinha_mais_fofocas(fofocas):
 
 # Função principal
 def main():
-    arquivo = "exemplo.txt"  # Substitua pelo nome do seu arquivo de entrada
+    arquivo = "caso010.txt"  # Substitua pelo nome do seu arquivo de entrada
     grafo_amizades = criar_grafo_amizades(arquivo)
     fofocas = simular_migracao_informacoes(grafo_amizades)
     velhinha_mais_fofocas, num_fofocas = encontrar_velhinha_mais_fofocas(fofocas)
