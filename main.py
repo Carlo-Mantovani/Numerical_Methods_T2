@@ -60,7 +60,8 @@ def matrix_from_file(file_name):
             line = line.split(":")
             line = line[1].split()
             for i in range(len(line)):
-                matrix[enum][int(line[i])-1] = 1/len(line) - 0.1
+                division = 1/len(line)
+                matrix[enum][int(line[i])-1] = division - 0.1
             matrix[enum][enum] = -1
 
             
@@ -90,6 +91,7 @@ def main():
 
     for case in CASES:
         print("\nCase:", case)
+        #file = "caso000.txt"
         file = case
         matrix = matrix_from_file(file)
         independent_terms = generate_independent_terms(file)
