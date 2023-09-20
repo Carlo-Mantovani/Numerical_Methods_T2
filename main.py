@@ -61,7 +61,7 @@ def matrix_from_file(file_name):
             line = line[1].split()
             for i in range(len(line)):
                 division = 1/len(line)
-                matrix[enum][int(line[i])-1] = division - 0.1
+                matrix[enum][int(line[i])-1] = division * 0.9
             matrix[enum][enum] = -1
 
             
@@ -87,13 +87,14 @@ def get_highest_value_index(array):
     return index, highest
 
 def main():
-    CASES = ["caso000.txt", "caso100.txt", "caso020.txt", "caso050.txt", "caso100.txt", "caso200.txt"]
+    CASES = ["caso000.txt", "caso010.txt", "caso020.txt", "caso050.txt", "caso100.txt", "caso200.txt"]
 
     for case in CASES:
         print("\nCase:", case)
         #file = "caso000.txt"
         file = case
         matrix = matrix_from_file(file)
+        matrix = np.transpose(matrix)
         independent_terms = generate_independent_terms(file)
         #print(matrix)
 
