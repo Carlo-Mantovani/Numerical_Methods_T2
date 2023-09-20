@@ -40,18 +40,6 @@ def gauss_jacobi(coefficient_matrix, independent_terms, max_iterations=1000, tol
 
 
 def matrix_from_file(file_name):
-    #Matrix Pattern
-    #Example File
-    # 1 : 2 3
-    # 2 : 1
-    # 3 : 1 2
-    # Matrix
-    # Chance per line(exception: diagonal (matrix[i,i])) = 1/number of columns - 0.1
-    # Matrix example
-    # -1 1/2 1/2 
-    # 1/1 -1 0
-    # 1/2 1/2 -1
-    #Code:
     with open(file_name) as f:
         lines = f.readlines()
         matrix = np.zeros((len(lines), len(lines)))
@@ -61,7 +49,7 @@ def matrix_from_file(file_name):
             line = line[1].split()
             for i in range(len(line)):
                 division = 1/len(line)
-                matrix[enum][int(line[i])-1] = division * 0.9
+                matrix[int(line[i])-1][enum] = division * 0.9
             matrix[enum][enum] = -1
 
             
@@ -94,7 +82,7 @@ def main():
         #file = "caso000.txt"
         file = case
         matrix = matrix_from_file(file)
-        matrix = np.transpose(matrix)
+        #matrix = np.transpose(matrix)
         independent_terms = generate_independent_terms(file)
         #print(matrix)
 
