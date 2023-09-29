@@ -2,7 +2,7 @@ import numpy as np
 
 
 # Function to calculate the sum of a row in the coefficient matrix
-def row_sum(coefficient_matrix, independent_terms, row, current_x):
+def row_sum(coefficient_matrix, row, current_x):
     sum_result = 0
     for j in range(len(coefficient_matrix)):
         sum_result += coefficient_matrix[row, j] * current_x[j]
@@ -13,14 +13,14 @@ def check_convergence_gauss_jacobi(coefficient_matrix, calculated_x, independent
     n = len(coefficient_matrix)
 
     for i in range(n):
-        row_sum_result = row_sum(coefficient_matrix, independent_terms, i, calculated_x)
+        row_sum_result = row_sum(coefficient_matrix, i, calculated_x)
         difference = abs(row_sum_result - independent_terms[i])
         if difference > tolerance:
             return False
     return True
 
 # Function to solve a system of linear equations using Gauss-Jacobi method
-def gauss_jacobi(coefficient_matrix, independent_terms, max_iterations=1000, tolerance=1e-6):
+def gauss_jacobi(coefficient_matrix, independent_terms, max_iterations=1000):
     n = len(coefficient_matrix)
 
     current_x = np.ones(n)
@@ -36,7 +36,7 @@ def gauss_jacobi(coefficient_matrix, independent_terms, max_iterations=1000, tol
         current_x[:] = next_x
         if check_convergence_gauss_jacobi(coefficient_matrix, current_x, independent_terms):
             return current_x, iteration + 1
-    return None, max_iterations  # Returns None if convergence is not achieved
+    return current_x, max_iterations  # Returns None if convergence is not achieved
 
 
 def matrix_from_file(file_name):
@@ -56,15 +56,18 @@ def matrix_from_file(file_name):
        
         return matrix
 
+# Function to get the length of the file
 def length_from_file(file_name):
     with open(file_name) as f:
         lines = f.readlines()
         return len(lines)
 
+# Function to generate the independent terms vector
 def generate_independent_terms(file_name):
-    #return np.zeros(length_from_file(file_name))
+
     return -1 * np.ones(length_from_file(file_name))
 
+# Function to get the index of the highest value in an array
 def get_highest_value_index(array):
     highest = 0
     index = 0
@@ -75,29 +78,27 @@ def get_highest_value_index(array):
     return index, highest
 
 def main():
-    CASES = ["caso000.txt", "caso010.txt", "caso020.txt", "caso050.txt", "caso100.txt", "caso200.txt"]
 
+    # Select between a specific case or all pre-defined cases
+    inputText = input("Select between a specific case or all pre-defined cases (s/a): ")
+    if inputText == "s":
+        file = input("Enter the file name(Ex: case010.txt): ")
+        CASES = [file]
+    else:
+        CASES = ["case010.txt", "case015.txt", "case020.txt", "case050.txt", "case100.txt", "case200.txt"]
+
+    # Iterate over all cases
     for case in CASES:
         print("\nCase:", case)
-        #file = "caso000.txt"
-        file = case
-        matrix = matrix_from_file(file)
-        #matrix = np.transpose(matrix)
-        independent_terms = generate_independent_terms(file)
-        #print(matrix)
+
+        matrix = matrix_from_file(case)
+        independent_terms = generate_independent_terms(case)
 
         solution, iterations = gauss_jacobi(matrix, independent_terms)
-        if solution is not None:
-            print("Solution found after", iterations, "iterations")
-            #print(solution)
-            #print ("Checking solution:")
-            #print (" Original Independent Terms: ", independent_terms)
-            #print(" Obtained Values using the Solution: ", np.dot(matrix, solution))
-            highest_index, highest_value = get_highest_value_index(solution)
-            highest_value = "{:.2f}".format(highest_value)
-            print ("Most Popular Granny:", highest_index + 1, " with", highest_value, "gossips")
-        else:
-            print("Gauss-Jacobi method did not converge after", iterations, "iterations.")
+        print("Solution found after", iterations, "iterations")
+        highest_index, highest_value = get_highest_value_index(solution)
+        print ("Most Popular granny is Granny", highest_index + 1, "with", highest_value, "gossips")
+
 
 
 if __name__ == "__main__":
