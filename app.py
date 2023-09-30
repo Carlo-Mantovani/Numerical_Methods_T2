@@ -39,6 +39,7 @@ def gauss_jacobi(coefficient_matrix, independent_terms, max_iterations=1000):
     return current_x, max_iterations  # Returns None if convergence is not achieved
 
 
+# Function to generate the coefficient matrix (Linear System) from a file
 def matrix_from_file(file_name):
     with open(file_name) as f:
         lines = f.readlines()
@@ -77,6 +78,7 @@ def get_highest_value_index(array):
             index = i
     return index, highest
 
+# Main function
 def main():
 
     # Select between a specific case or all pre-defined cases
@@ -94,12 +96,15 @@ def main():
         matrix = matrix_from_file(case)
         independent_terms = generate_independent_terms(case)
 
+        # Solve the system of linear equations using Gauss-Jacobi method
         solution, iterations = gauss_jacobi(matrix, independent_terms)
         print("Solution found after", iterations, "iterations")
+        
+        # Get the index and value of the highest value in the solution array
         highest_index, highest_value = get_highest_value_index(solution)
         print ("Most Popular granny is Granny", highest_index + 1, "with", highest_value, "gossips")
 
 
-
+# Run the main function
 if __name__ == "__main__":
     main()
